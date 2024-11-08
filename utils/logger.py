@@ -15,7 +15,6 @@ def create_logger(test_name):
     # 生成测试用例名对应的文件夹路径
     parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
     test_log_dir = os.path.join(parent_dir, "logs", test_name)
-    print("路径：", test_log_dir)
 
     # 如果文件夹不存在，则创建它
     if not os.path.exists(test_log_dir):

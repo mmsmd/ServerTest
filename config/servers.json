@@ -1,0 +1,61 @@
+{
+  "servers": [
+    {
+      "name": "server1",
+      "host": "192.168.8.11",
+      "username": "root",
+      "password": "123456",
+      "port": 22,
+      "telnet": {
+        "host": "192.168.1.10",
+        "port": 23,
+        "username": "telnet_user",
+        "password": "telnet_pass"
+      },
+      "bmc_web": {
+        "host": "192.168.1.10",
+        "port": 443,
+        "username": "bmc_user",
+        "password": "bmc_pass"
+      }
+    },
+    {
+      "name": "server2",
+      "host": "192.168.8.121",
+      "username": "root",
+      "password": "123456",
+      "port": 22,
+      "telnet": {
+        "host": "192.168.1.11",
+        "port": 23,
+        "username": "telnet_user",
+        "password": "telnet_pass"
+      },
+      "bmc_web": {
+        "host": "192.168.1.11",
+        "port": 443,
+        "username": "bmc_user",
+        "password": "bmc_pass"
+      }
+    },
+    {
+      "name": "server3",
+      "host": "192.168.8.111",
+      "username": "root",
+      "password": "123456",
+      "port": 22,
+      "telnet": {
+        "host": "192.168.1.12",
+        "port": 23,
+        "username": "telnet_user",
+        "password": "telnet_pass"
+      },
+      "bmc_web": {
+        "host": "192.168.1.12",
+        "port": 443,
+        "username": "bmc_user",
+        "password": "bmc_pass"
+      }
+    }
+  ]
+}

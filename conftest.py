@@ -3,37 +3,51 @@ import os
 import pytest
 import yaml
 
+from server_selector import load_selected_server
 from utils.logger import create_logger
 from utils.ssh_client import SSHClient
 from utils.telnet_client import TelnetClient
 from utils.redfish_client import RedfishClient
+from utils.bmc_web_client import BMCWebClient
 
-# CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config/telnet_config.yaml")
+@pytest.fixture(scope="session")
+def selected_server():
+    # 获取选中的服务器
+    server = load_selected_server()
+    print("选中的服务器：", server)
+    return server
 
+@pytest.fixture(scope="session")
+def ssh_client(selected_server):
+    # 使用选中的服务器配置创建 SSH 客户端
+    client = SSHClient(
+        host=selected_server["host"],
+        username=selected_server["username"],
+        password=selected_server["password"],
+        port=selected_server["port"]
+    )
+    return client
 
-@pytest.fixture(scope="module")
-def ssh_client():
-    with open("E:/AutoServer/ServerTest/config/ssh_config.yaml") as f:
-        config = yaml.safe_load(f)
-    client = SSHClient(config['host'], config['port'], config['username'], config['password'])
-    client.connect()
-    yield client
-    client.close()
+@pytest.fixture(scope="session")
+def telnet_client(selected_server):
+    # 使用选中的服务器配置创建 Telnet 客户端
+    client = TelnetClient(
+        host=selected_server["telnet"]["host"],
+        port=selected_server["telnet"]["port"],
+        username=selected_server["telnet"]["username"],
+        password=selected_server["telnet"]["password"]
+    )
+    return client
 
-@pytest.fixture(scope="module")
-def telnet_client():
-    with open("E:/AutoServer/ServerTest/config/telnet_config.yaml") as f:
-        config = yaml.safe_load(f)
-    client = TelnetClient(config['host'], config['port'], config['username'], config['password'])
-    client.connect()
-    yield client
-    client.close()
-
-@pytest.fixture(scope="module")
-def redfish_client():
-    with open("config/bmc_credentials.yaml") as f:
-        config = yaml.safe_load(f)
-    client = RedfishClient(config['bmc_url'], config['username'], config['password'])
+@pytest.fixture(scope="session")
+def bmc_client(selected_server):
+    # 使用选中的服务器配置创建 BMC 客户端
+    client = BMCWebClient(
+        host=selected_server["bmc_web"]["host"],
+        port=selected_server["bmc_web"]["port"],
+        username=selected_server["bmc_web"]["username"],
+        password=selected_server["bmc_web"]["password"]
+    )
     return client
 
 # 使用 request 获取当前用例名，并为每个用例创建独立的 logger
@@ -45,6 +59,11 @@ def logger(request):
 
 @pytest.fixture(scope="function", autouse=True)
 def clear_and_check_dmesg(ssh_client, logger):
+    # 确保 SSH 客户端已连接
+    if not ssh_client.client:
+        logger.info("SSH client not connected, attempting to connect.")
+        ssh_client.connect()
+
     # 清除 dmesg 日志
     logger.info("Clearing dmesg logs before test execution.")
     logger.info("==================================================================================")
