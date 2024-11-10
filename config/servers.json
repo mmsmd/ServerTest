@@ -51,10 +51,10 @@
         "password": "telnet_pass"
       },
       "bmc_web": {
-        "host": "192.168.1.12",
+        "host": "https://support.xfusion.com/server-simulators/ibmc-demo/v600/#/navigate/home",
         "port": 443,
-        "username": "bmc_user",
-        "password": "bmc_pass"
+        "username": "test",
+        "password": "123456"
       }
     }
   ]

@@ -1,4 +1,6 @@
 import pytest
+import json
+import os
 
 
 def check_values(expected, actual, check_type="equal", tolerance=None):
@@ -35,3 +37,14 @@ def check_values(expected, actual, check_type="equal", tolerance=None):
 
     # 如果检查通过，不做任何操作
     print(f"Check passed: {expected} {check_type} {actual}")
+
+def load_nav_map(config_file_path="../../config/element_map.json"):
+    """加载导航名称到 ID 的映射"""
+    # 确保路径正确，并读取 JSON 文件
+    if not os.path.exists(config_file_path):
+        raise FileNotFoundError(f"Config file not found: {config_file_path}")
+
+    with open(config_file_path, "r") as file:
+        nav_map = json.load(file)
+    return nav_map
+
