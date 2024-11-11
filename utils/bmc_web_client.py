@@ -7,6 +7,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+from utils.webdriver import HighlightedWebDriver
+
 
 class BMCWebClient:
     def __init__(self, host, port , username, password):
@@ -16,14 +18,24 @@ class BMCWebClient:
         self.password = password
         self.driver = None
 
+    # def start_driver(self):
+    #     """初始化 Chrome WebDriver"""
+    #     # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    #     self.driver = HighlightedWebDriver(service=Service(ChromeDriverManager().install()))
+    #     self.driver.maximize_window()  # 最大化窗口
+    #     print("Starting ChromeDriver...")
+    #     bmc_url = self.host
+    #     self.driver.get(bmc_url)
+    #     time.sleep(2)  # 等待页面加载
+
     def start_driver(self):
         """初始化 Chrome WebDriver"""
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        self.driver = HighlightedWebDriver(service=Service(ChromeDriverManager().install()))
         self.driver.maximize_window()  # 最大化窗口
         print("Starting ChromeDriver...")
         bmc_url = self.host
         self.driver.get(bmc_url)
-        time.sleep(2)  # 等待页面加载
+        time.sleep(2)
 
     def login(self):
         """登录到 BMC Web 界面"""
@@ -37,7 +49,7 @@ class BMCWebClient:
 
         # 提交表单
         password_field.send_keys(Keys.RETURN)
-        time.sleep(5)  # 等待页面加载
+        time.sleep(5)
 
         print("Logged in successfully.")
 
