@@ -4,5 +4,6 @@
   "settings": "navSettings",
   "logs": "navLogs",
   "net_mode_manual": "portFixed_radio",
-  "net_mode_auto": "portAutomatic_label"
+  "net_mode_auto": "portAutomatic_label",
+  "home_product_name": "homeProductName"
 }
