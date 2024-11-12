@@ -50,6 +50,16 @@ def bmc_client(selected_server):
     )
     return client
 
+@pytest.fixture(scope="session")
+def redfish_client(selected_server):
+    # 使用选中的服务器配置创建 BMC 客户端
+    client = RedfishClient(
+        host=selected_server["bmc_web"]["host"],
+        username=selected_server["bmc_web"]["username"],
+        password=selected_server["bmc_web"]["password"]
+    )
+    return client
+
 # 使用 request 获取当前用例名，并为每个用例创建独立的 logger
 @pytest.fixture(scope="function", autouse=True)
 def logger(request):
